@@ -29,33 +29,35 @@ namespace EnterpriseCQRS.Services.CommandHandlers.ProductCommandHandler
 
             public async Task<GenericResponse<IList<Transaction>>> Handle(GetTransactionCommand request, CancellationToken cancellationToken)
             {
-                logger.LogInformation("comienza a ejecutar el handler");
-                var url = new Uri("http://quiet-stone-2094.herokuapp.com/transactions.json");
-                var response = new GenericResponse<IList<Transaction>>();
-                var transactions = new Utilities<Transaction>();
+                //logger.LogInformation("comienza a ejecutar el handler");
+                //var url = new Uri("http://quiet-stone-2094.herokuapp.com/transactions.json");
+                //var response = new GenericResponse<IList<Transaction>>();
+                //var transactions = new Utilities<Transaction>();
 
-                logger.LogWarning("se realiza proceso de eliminado de info de la tabla");
-                _context.Database.ExecuteSqlRaw("DELETE FROM [Transaction]");
-                logger.LogWarning("Termino el proceso de eliminado de info de la tabla");
+                //logger.LogWarning("se realiza proceso de eliminado de info de la tabla");
+                //_context.Database.ExecuteSqlRaw("DELETE FROM [Transaction]");
+                //logger.LogWarning("Termino el proceso de eliminado de info de la tabla");
 
-                logger.LogWarning("se realiza proceso de consumir servicio externo");
-                var responses = await transactions.ExternalServiceUtility(url);
-                logger.LogWarning("Termino el proceso de eliminado de info de la tabla");
+                //logger.LogWarning("se realiza proceso de consumir servicio externo");
+                //var responses = await transactions.ExternalServiceUtility(url);
+                //logger.LogWarning("Termino el proceso de eliminado de info de la tabla");
 
-                if (responses.Result is null)
-                {
-                    responses.Message = " el servicio externo no devolvio datos";
-                    return responses;
-                }
+                //if (responses.Result is null)
+                //{
+                //    responses.Message = " el servicio externo no devolvio datos";
+                //    return responses;
+                //}
 
-                logger.LogWarning("se realiza guardado de info en la tabla");
-                await _context.Transaction.AddRangeAsync(responses.Result, cancellationToken);
-                await _context.SaveChangesAsync(cancellationToken);
-                logger.LogWarning("termino proceso de  guardado de info en la tabla");
-                response.Message = "Guardado exitoso";
-                //response.Result = responses.Result;
+                //logger.LogWarning("se realiza guardado de info en la tabla");
+                //await _context.Transaction.AddRangeAsync(responses.Result, cancellationToken);
+                //await _context.SaveChangesAsync(cancellationToken);
+                //logger.LogWarning("termino proceso de  guardado de info en la tabla");
+                //response.Message = "Guardado exitoso";
+                ////response.Result = responses.Result;
 
-                return response;
+                //return response;
+
+                return await Handle(request, cancellationToken).ConfigureAwait(false);
             }
         }
 
